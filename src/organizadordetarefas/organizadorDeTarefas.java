@@ -85,27 +85,6 @@ public class organizadorDeTarefas {
     public static void setIndexAtual(int indexAtual) {
         organizadorDeTarefas.indexAtual = indexAtual;
     }
-    static ActionListener buttonListener = (ActionEvent ae) -> {
-        int i = Frame.buttons.indexOf(ae.getSource());
-        System.out.println("Ind: " + i);
-        if(i != -1){
-            System.out.println("label: " + Frame.labels.get(i).getText());
-            
-            Frame.buttons.get(i).setVisible(false);
-            Frame.labels.get(i).setVisible(false);
-            Frame.buttons.remove(i);
-            Frame.labels.remove(i);
-            reposicionar(0);
-        }
-        System.out.println("arr size: "+ Frame.buttons.size());
-    };
     
-    public static void setUpListeners(){
-        Frame.buttons.get(Frame.buttons.size()-1).addActionListener(buttonListener);
-    }
     
-    public static void tester(int a){
-        javax.swing.JOptionPane.showMessageDialog(null, "WORKING");
-    }
-
 }

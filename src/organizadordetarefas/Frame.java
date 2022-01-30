@@ -5,17 +5,19 @@
 package organizadordetarefas;
 
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import static organizadordetarefas.organizadorDeTarefas.reposicionar;
 
-/**
- *
- * @author gabri
- */
+
 public class Frame extends javax.swing.JFrame {
 
-    public static ArrayList<javax.swing.JTextField> labels = new ArrayList<javax.swing.JTextField>();
+    public static ArrayList<javax.swing.JTextField> labels = new ArrayList<>();
     public static ArrayList<javax.swing.JButton> buttons = new ArrayList<>();
 
     public static ArrayList<JTextField> getLabels() {
@@ -32,9 +34,10 @@ public class Frame extends javax.swing.JFrame {
         setLayout(null);
         jPanel1.setLayout(null);
         setResizable(false);
-        adicionarInicio();
         defInit(subirBtn);
         defInit(descerBtn);
+        adicionarInicio();
+        adicionar.addActionListener(action);
     }
     
     
@@ -161,19 +164,19 @@ public class Frame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(250, 250, 250)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(162, 162, 162)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(247, 247, 247)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(adicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -238,28 +241,42 @@ public class Frame extends javax.swing.JFrame {
             buttons.add(new javax.swing.JButton("X"));
             jPanel1.add(labels.get(labels.size()-1));
             jPanel1.add(buttons.get(buttons.size()-1));
+            labels.get(labels.size() - 1).setEditable(false);
             buttons.get(buttons.size()-1).setCursor(new Cursor(Cursor.HAND_CURSOR));
-            organizadorDeTarefas.setUpListeners();
+            setUpListeners();
         }
-        organizadorDeTarefas.reposicionar(0);
-        
+
+        organizadorDeTarefas.reposicionar(0);  
+        if(labels.size()>6){
+            descerBtn.setEnabled(true);
+            System.out.println("ADASDNHCID SDSA");
+        }  
     }
     
     
     private void AdicionarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarBtnActionPerformed
-
         labels.add(new javax.swing.JTextField(adicionar.getText()));
         buttons.add(new javax.swing.JButton("X"));
+        labels.get(labels.size()-1).setEditable(false);
         adicionar.setText("");
         jPanel1.add(labels.get(labels.size()-1));
         jPanel1.add(buttons.get(buttons.size()-1));
         buttons.get(buttons.size()-1).setCursor(new Cursor(Cursor.HAND_CURSOR));
         if(labels.size()>6)
             descerBtn.setEnabled(true);  
-        organizadorDeTarefas.setUpListeners();
+        setUpListeners();
         organizadorDeTarefas.reposicionar(0);
     }//GEN-LAST:event_AdicionarBtnActionPerformed
 
+
+    public Action action = new AbstractAction()
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            AdicionarBtn.doClick();
+        }
+    };
     
     /**
      * @param args the command line arguments
@@ -304,15 +321,40 @@ public class Frame extends javax.swing.JFrame {
     public void removerCompletamente(JTextField a){
         remove(a);
     }
+    
+    public void desativarBtn(){
+        descerBtn.setEnabled(false);
+        subirBtn.setEnabled(false);
+    }
+    
+    ActionListener buttonListener = (ActionEvent ae) -> {
+        int i = Frame.buttons.indexOf(ae.getSource());
+        if(i != -1) {   
+            Frame.buttons.get(i).setVisible(false);
+            Frame.labels.get(i).setVisible(false);
+            Frame.buttons.remove(i);
+            Frame.labels.remove(i);
+            reposicionar(0);
+            if(Frame.buttons.size() < 7)
+                desativarBtn();
+        }
+    };
+    
+ 
+    public void setUpListeners(){
+        Frame.buttons.get(Frame.buttons.size()-1).addActionListener(buttonListener);
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AdicionarBtn;
     private javax.swing.JTextField adicionar;
-    private javax.swing.JButton descerBtn;
+    public javax.swing.JButton descerBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton subirBtn;
+    public javax.swing.JButton subirBtn;
     private javax.swing.JTextField t1;
     private javax.swing.JTextField t2;
     private javax.swing.JTextField t3;
@@ -326,4 +368,5 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JButton x5;
     private javax.swing.JButton x6;
     // End of variables declaration//GEN-END:variables
+
 }
