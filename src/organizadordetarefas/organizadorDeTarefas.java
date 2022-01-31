@@ -4,8 +4,6 @@
  */
 package organizadordetarefas;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -85,6 +83,4 @@ public class organizadorDeTarefas {
     public static void setIndexAtual(int indexAtual) {
         organizadorDeTarefas.indexAtual = indexAtual;
     }
-    
-    
 }
